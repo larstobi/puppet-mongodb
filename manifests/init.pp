@@ -44,6 +44,7 @@ class mongodb (
   $port            = '27017',
   $dbpath          = $mongodb::params::dbpath,
   $nojournal       = undef,
+  $smallfiles      = undef,
   $cpu             = undef,
   $noauth          = undef,
   $auth            = undef,
