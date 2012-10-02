@@ -1,0 +1,14 @@
+# mongod logrotate - generated from Puppet
+<%= logpath -%> {
+   daily
+   rotate 7
+   compress
+   delaycompress
+   create 640 mongod mongod
+   notifempty
+   missingok
+   sharedscripts
+   postrotate
+      /bin/kill -SIGUSR1 `cat <%= dbpath -%>/mongod.lock 2> /dev/null` 2> /dev/null || true
+   endscript
+}
