@@ -113,3 +113,7 @@ directoryperdb = <%= directoryperdb %>
 # set name as an argument to this set. All hosts must have the same set name.
 replSet = <%= replSet %>
 <% end %>
+# Enable rest API (disabled by default)
+<% if @rest %>
+rest = <%= rest %>
+<% end %>
