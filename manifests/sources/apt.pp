@@ -1,3 +1,6 @@
+# == Class: mongodb::sources::apt
+#
+# Configure apt location configuration and PGP keys for Debian derivatives.
 class mongodb::sources::apt inherits mongodb::params {
   include apt
 

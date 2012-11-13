@@ -1,3 +1,6 @@
+# == Class: mongodb::params
+#
+# Default parameters for the mongodb class.
 class mongodb::params{
   case $::operatingsystem {
     centos, redhat, oel, Amazon: {
@@ -16,16 +19,19 @@ class mongodb::params{
         'upstart' => 'http://downloads-distro.mongodb.org/repo/ubuntu-upstart'
       }
       case $::operatingsystem {
-        debian: { $init = 'sysv' }
-        ubuntu: { $init = 'upstart' }
+        debian:  { $init = 'sysv' }
+        ubuntu:  { $init = 'upstart' }
+        default: { $init = 'sysv' }
       }
-      $source  = 'mongodb::sources::apt'
+      if $::operatingsystem == 'Ubuntu' {
+        $source = 'mongodb::sources::apt'
+      }
       $package = 'mongodb'
       $service = 'mongodb'
       $pkg_10gen = 'mongodb-10gen'
       $dbpath = '/var/lib/mongo'
       $logpath = '/var/log/mongo/mongod.log'
-      $config = '/etc/mongod.conf'
+      $config = '/etc/mongodb.conf'
     }
     default: {
       fail ("mongodb: ${::operatingsystem} is not supported.")

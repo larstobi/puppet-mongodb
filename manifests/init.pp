@@ -5,11 +5,11 @@
 #
 # === Parameters
 #
-# enable_10gen (default: false) - Whether or not to set up 10gen software repositories
-# init (auto discovered) - override init (sysv or upstart) for Debian derivatives
-# location - override apt location configuration for Debian derivatives
-# packagename (auto discovered) - override the package name
-# servicename (auto discovered) - override the service name
+# enable_10gen (default: false) - Configure 10gen software repositories
+# init (auto discovered) - Override init method for Debian derivatives
+# location - Override apt location configuration for Debian derivatives
+# packagename (auto discovered) - Override the package name
+# servicename (auto discovered) - Override the service name
 # service_enable (default: true)- Enable the service and ensure it is running
 #
 # === Examples
@@ -36,6 +36,7 @@ class mongodb (
   $location        = '',
   $packagename     = undef,
   $servicename     = $mongodb::params::service,
+  $service_ensure  = 'running',
   $service_enable  = true,
   $logpath         = $mongodb::params::logpath,
   $logappend       = true,
@@ -86,8 +87,8 @@ class mongodb (
   }
 
   package { $package:
-    name   => $package,
     ensure => installed,
+    name   => $package,
   }
 
   file { $mongodb::params::config:
@@ -103,12 +104,12 @@ class mongodb (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Package['mongodb-10gen'],
+    require => Package[$package],
   }
 
   service { 'mongodb':
-    name      => $servicename,
     ensure    => $service_ensure,
+    name      => $servicename,
     enable    => $service_enable,
     subscribe => File[$mongodb::params::config],
   }
