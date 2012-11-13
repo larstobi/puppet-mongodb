@@ -91,9 +91,7 @@ mms-name = <%= mms_name %>
 # Ping interval for Mongo monitoring server.
 mms-interval = <%= mms_interval %>
 <% end %>
-<% if @replset %>
-replSet = <%= replset %>
-<% else %>
+
 <% if @slave %>
 slave = <%= slave %>
 <% end %>
