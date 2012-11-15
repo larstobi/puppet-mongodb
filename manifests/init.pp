@@ -111,10 +111,9 @@ class mongodb (
       rest            => $rest;
 
     'mongodb::service':
-      init            => $init,
       servicename     => $servicename,
       service_ensure  => $service_ensure,
-      service_enable  => $service_enable,
+      service_enable  => $service_enable;
   }
   Class['mongodb::packages'] -> Class['mongodb::config']
   Class['mongodb::config']   -> Class['mongodb::service']
