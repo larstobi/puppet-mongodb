@@ -61,7 +61,6 @@ class mongodb (
   $nssize          = undef,
   $mms_token       = undef,
   $mms_name        = undef,
-  $mms_name        = undef,
   $mms_interval    = undef,
   $replset         = undef,
   $slave           = undef,
@@ -72,44 +71,51 @@ class mongodb (
   $replSet         = undef,
   $rest            = undef,
 ) inherits mongodb::params {
+  class {
+    'mongodb::packages':
+      enable_10gen => $enable_10gen,
+      packagename  => $packagename;
 
-  if $enable_10gen {
-    include $mongodb::params::source
-    Class[$mongodb::params::source] -> Package[$mongodb::params::pkg_10gen]
-  }
+    'mongodb::config':
+      logpath         => $logpath,
+      logappend       => $logappend,
+      mongofork       => $mongofork,
+      bind_ip         => $bind_ip,
+      port            => $port,
+      dbpath          => $dbpath,
+      nojournal       => $nojournal,
+      smallfiles      => $smallfiles,
+      cpu             => $cpu,
+      noauth          => $noauth,
+      auth            => $auth,
+      verbose         => $verbose,
+      objcheck        => $objcheck,
+      quota           => $quota,
+      oplog           => $oplog,
+      nohints         => $nohints,
+      nohttpinterface => $nohttpinterface,
+      noscripting     => $noscripting,
+      notablescan     => $notablescan,
+      noprealloc      => $noprealloc,
+      nssize          => $nssize,
+      mms_token       => $mms_token,
+      mms_name        => $mms_name,
+      mms_interval    => $mms_interval,
+      replset         => $replset,
+      slave           => $slave,
+      only            => $only,
+      master          => $master,
+      source          => $source,
+      directoryperdb  => $directoryperdb,
+      replSet         => $replSet,
+      rest            => $rest;
 
-  if $packagename {
-    $package = $packagename
-  } elsif $enable_10gen {
-    $package = $mongodb::params::pkg_10gen
-  } else {
-    $package = $mongodb::params::package
+    'mongodb::service':
+      init            => $init,
+      servicename     => $servicename,
+      service_ensure  => $service_ensure,
+      service_enable  => $service_enable,
   }
-
-  package { $package:
-    ensure => installed,
-  }
-
-  file { $mongodb::params::config:
-    content => template('mongodb/mongod.conf.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package[$package],
-  }
-
-  file { '/etc/logrotate.d/mongod':
-    content => template('mongodb/logrotate.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package[$package],
-  }
-
-  service { 'mongodb':
-    ensure    => $service_ensure,
-    name      => $servicename,
-    enable    => $service_enable,
-    subscribe => File[$mongodb::params::config],
-  }
+  Class['mongodb::packages'] -> Class['mongodb::config']
+  Class['mongodb::config']   -> Class['mongodb::service']
 }
