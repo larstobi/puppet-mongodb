@@ -15,10 +15,8 @@ describe 'mongodb', :type => :class do
       it {
         should_not contain_class('mongodb::sources::apt')
         should_not contain_apt__source('10gen')
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb'
-        })
-        should contain_file('/etc/mongod.conf')
+        should contain_package('mongodb')
+        should contain_file('/etc/mongodb.conf')
         should contain_service('mongodb').with({
           :name => 'mongodb'
         })
@@ -35,9 +33,7 @@ describe 'mongodb', :type => :class do
         should contain_apt__source('10gen').with({
           :location => 'http://downloads-distro.mongodb.org/repo/debian-sysvinit',
         })
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb-10gen'
-        })
+        should contain_package('mongodb-10gen')
       }
     end
 
@@ -62,7 +58,6 @@ describe 'mongodb', :type => :class do
       {
         :osfamily        => 'Debian',
         :operatingsystem => 'Ubuntu',
-        :lsbdistcodename => 'edgy',
       }
     end
 
@@ -70,10 +65,8 @@ describe 'mongodb', :type => :class do
       it {
         should_not contain_class('mongodb::sources::apt')
         should_not contain_apt__source('10gen')
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb'
-        })
-        should contain_file('/etc/mongod.conf')
+        should contain_package('mongodb')
+        should contain_file('/etc/mongodb.conf')
         should contain_service('mongodb').with({
           :name => 'mongodb'
         })
@@ -90,9 +83,7 @@ describe 'mongodb', :type => :class do
         should contain_apt__source('10gen').with({
           :location => 'http://downloads-distro.mongodb.org/repo/ubuntu-upstart',
         })
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb-10gen'
-        })
+        should contain_package('mongodb-10gen')
       }
     end
 
@@ -107,9 +98,7 @@ describe 'mongodb', :type => :class do
         should contain_apt__source('10gen').with({
           :location => 'http://downloads-distro.mongodb.org/repo/debian-sysvinit'
         })
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb-10gen'
-        })
+        should contain_package('mongodb-10gen')
       }
     end
 
@@ -132,6 +121,7 @@ describe 'mongodb', :type => :class do
     let :facts do
       {
         :osfamily        => 'RedHat',
+        :operatingsystem => 'RedHat',
         :lsbdistcodename => 'Final',
       }
     end
@@ -140,10 +130,8 @@ describe 'mongodb', :type => :class do
       it {
         should_not contain_class('mongodb::sources::yum')
         should_not contain_yumrepo('10gen')
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongodb-server'
-        })
-        should contain_file('/etc/mongod.conf')
+        should contain_package('mongodb-server')
+        should contain_file('/etc/mongodb.conf')
         should contain_service('mongodb').with({
           :name => 'mongod'
         })
@@ -157,10 +145,8 @@ describe 'mongodb', :type => :class do
 
       it {
         should contain_class('mongodb::sources::yum')
-        should contain_package('mongodb-10gen').with({
-          :name => 'mongo-10gen-server'
-        })
-        should contain_file('/etc/mongod.conf')
+        should contain_package('mongo-10gen-server')
+        should contain_file('/etc/mongodb.conf')
         should contain_service('mongodb').with({
           :name => 'mongod'
         })
@@ -170,7 +156,9 @@ describe 'mongodb', :type => :class do
 
   describe 'when deploying on Solaris' do
     let :facts do
-      { :osfamily        => 'Solaris' }
+      { :osfamily        => 'Solaris',
+        :operatingsystem => 'Solaris' }
+
     end
     it { expect { should raise_error(Puppet::Error) } }
   end

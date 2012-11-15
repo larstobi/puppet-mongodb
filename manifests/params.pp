@@ -23,9 +23,7 @@ class mongodb::params{
         ubuntu:  { $init = 'upstart' }
         default: { $init = 'sysv' }
       }
-      if $::operatingsystem == 'Ubuntu' {
-        $source = 'mongodb::sources::apt'
-      }
+      $source = 'mongodb::sources::apt'
       $package = 'mongodb'
       $service = 'mongodb'
       $pkg_10gen = 'mongodb-10gen'

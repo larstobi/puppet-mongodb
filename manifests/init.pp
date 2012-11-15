@@ -88,7 +88,6 @@ class mongodb (
 
   package { $package:
     ensure => installed,
-    name   => $package,
   }
 
   file { $mongodb::params::config:
