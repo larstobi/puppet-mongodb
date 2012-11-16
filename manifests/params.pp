@@ -35,4 +35,40 @@ class mongodb::params{
       fail ("mongodb: ${::operatingsystem} is not supported.")
     }
   }
+
+  # Default values for the mongodb.conf template.
+  $default_conf = {
+    'auth'            => undef,
+    'bind_ip'         => undef,
+    'cpu'             => undef,
+    'dbpath'          => $dbpath,
+    'directoryperdb'  => undef,
+    'fork'            => undef,
+    'logappend'       => true,
+    'logpath'         => $logpath,
+    'master'          => undef,
+    'mms_interval'    => undef,
+    'mms_name'        => undef,
+    'mms_token'       => undef,
+    'mongofork'       => true,
+    'noauth'          => undef,
+    'nohints'         => undef,
+    'nohttpinterface' => undef,
+    'nojournal'       => undef,
+    'noprealloc'      => undef,
+    'noscripting'     => undef,
+    'notablescan'     => undef,
+    'nssize'          => undef,
+    'objcheck'        => undef,
+    'only'            => undef,
+    'oplog'           => undef,
+    'port'            => '27017',
+    'quota'           => undef,
+    'replSet'         => undef,
+    'rest'            => undef,
+    'slave'           => undef,
+    'smallfiles'      => undef,
+    'source'          => undef,
+    'verbose'         => undef,
+  }
 }
