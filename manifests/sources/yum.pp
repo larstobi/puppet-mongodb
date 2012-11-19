@@ -1,9 +1,9 @@
 # == Class: mongodb::sources::yum
 #
 # Configure yum location configuration for Red Hat derivatives.
-class mongodb::sources::yum inherits mongodb::params {
+class mongodb::sources::yum {
   yumrepo { '10gen':
-    baseurl   => $mongodb::params::baseurl,
+    baseurl   => hiera('mongodb_baseurl'),
     gpgcheck  => '0',
     enabled   => '1',
   }

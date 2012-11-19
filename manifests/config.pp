@@ -17,18 +17,20 @@
 # Copyright 2012 Lars Tobias Skjong-Borsting <larstobi@conduct.no>
 #
 class mongodb::config(
-  $config_hash = {},
-  ) inherits mongodb::params {
-  $conf = merge($mongodb::params::default_conf, $config_hash)
+  $config_hash    = hiera_hash('mongodb_config_hash', {'port'=>'27017'}),
+  $config_file    = hiera('mongodb_config_file', '/etc/mongodb.conf'),
+  $logrotate_file = hiera('mongodb_logrotate_file')
+  ) {
+  $conf = merge(hiera_hash('mongodb_default_conf'), $config_hash)
 
-  file { $mongodb::params::config:
-    content => template('mongodb/mongod.conf.erb'),
+  file { $config_file:
+    content => template('mongodb/mongodb.conf.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
   }
 
-  file { '/etc/logrotate.d/mongod':
+  file { $logrotate_file:
     content => template('mongodb/logrotate.erb'),
     owner   => 'root',
     group   => 'root',

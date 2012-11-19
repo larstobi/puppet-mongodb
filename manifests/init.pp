@@ -8,8 +8,8 @@
 # enable_10gen (default: false) - Configure 10gen software repositories
 # init (auto discovered) - Override init method for Debian derivatives
 # location - Override apt location configuration for Debian derivatives
-# packagename (auto discovered) - Override the package name
-# servicename (auto discovered) - Override the service name
+# package_name (auto discovered) - Override the package name
+# service_name (auto discovered) - Override the service name
 # service_enable (default: true)- Enable the service and ensure it is running
 #
 # === Examples
@@ -31,25 +31,25 @@
 # Copyright 2012 PuppetLabs
 #
 class mongodb (
-  $enable_10gen    = false,
-  $init            = $mongodb::params::init,
-  $location        = '',
-  $packagename     = undef,
-  $servicename     = $mongodb::params::service,
-  $service_ensure  = 'running',
-  $service_enable  = true,
-  $config_hash     = {},
-) inherits mongodb::params {
+  $enable_10gen    = hiera('mongodb_enable_10gen',     false),
+  $init            = hiera('mongodb_init',             undef),
+  $location        = hiera('mongodb_location',         undef),
+  $package         = hiera('mongodb_package',          undef),
+  $service_name    = hiera('mongodb_service_name',     'mongodb'),
+  $service_ensure  = hiera('mongodb_service_ensure',   'running'),
+  $service_enable  = hiera('mongodb_service_enable',   true),
+  $config_hash     = hiera_hash('mongodb_config_hash', {'port'=>'27017'}),
+  ) {
   class {
     'mongodb::packages':
       enable_10gen => $enable_10gen,
-      packagename  => $packagename;
+      package      => $package;
 
     'mongodb::config':
       config_hash => $config_hash;
 
     'mongodb::service':
-      servicename     => $servicename,
+      service_name    => $service_name,
       service_ensure  => $service_ensure,
       service_enable  => $service_enable;
   }

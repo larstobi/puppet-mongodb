@@ -6,7 +6,7 @@
 # === Parameters
 #
 # enable_10gen (default: false) - Configure 10gen software repositories
-# packagename (auto discovered) - Override the package name
+# package_name (auto discovered) - Override the package name
 #
 # === Authors
 #
@@ -19,24 +19,26 @@
 # Copyright 2012 Lars Tobias Skjong-Borsting <larstobi@conduct.no>
 #
 class mongodb::packages(
-  $enable_10gen    = false,
-  $packagename     = undef,
-  $init            = $mongodb::params::init,
-  ) inherits mongodb::params {
+  $enable_10gen    = hiera('mongodb_enable_10gen', false),
+  $init            = hiera('mongodb_init',         undef),
+  $package         = hiera('mongodb_package',      'mongodb'),
+  $location        = hiera('mongodb_location',     undef),
+  ) {
   if $enable_10gen {
-    include $mongodb::params::source
-    Class[$mongodb::params::source] -> Package[$mongodb::params::pkg_10gen]
+    $mongodb_source = hiera('mongodb_source')
+    class { $mongodb_source: location => $location; }
+    Class[$mongodb_source] -> Package[$mongodb_pkg_10gen]
   }
 
-  if $packagename {
-    $package = $packagename
+  if $package {
+    $package_name = $package
   } elsif $enable_10gen {
-    $package = $mongodb::params::pkg_10gen
+    $package_name = $pkg_10gen
   } else {
-    $package = $mongodb::params::package
+    $package_name = $package
   }
 
-  package { $package:
+  package { $package_name:
     ensure => installed,
   }
 }

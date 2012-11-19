@@ -1,47 +1,50 @@
-# mongo.conf - generated from Puppet
+# Generated from Puppet
+
+# Where to store the data.
+dbpath = <%= conf['dbpath'] %>
 
 #where to log
 logpath = <%= conf['logpath'] %>
-logappend = <%= conf['logappend'] %>
-# fork and run in background
-fork = <%= conf['mongofork'] %>
 
-<% if has_variable?(conf['bind_ip']) -%>
+logappend = <%= conf['logappend'] %>
+
+<% if has_variable?(conf['bind_ip']) %>
 bind_ip = <%= conf['bind_ip'] %>
-<% end -%>
-port = <%= conf['port'] %>
-dbpath= <%= conf['dbpath'] %>
-<% if has_variable?(conf['nojournal']) %>
-# Disables write-ahead journaling
-nojournal = <%= conf['nojournal'] %>
 <% end %>
-<% if has_variable?(conf['smallfiles']) %>
-# Use a smaller default data file size.
-smallfiles = <%= conf['smallfiles'] %>
+<% if has_variable?(conf['port']) %>
+port = <%= conf['port'] %>
+
+<% end %>
+<% if has_variable?(conf['journal']) %>
+# Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
+journal = <%= conf['journal'] %>
+
 <% end %>
 <% if has_variable?(conf['cpu']) %>
 # Enables periodic logging of CPU utilization and I/O wait
 cpu = <%= conf['cpu'] %>
-<% end %>
-<% if has_variable?(conf['noauth']) %>
-# Turn on/off security.  Off is currently the default
-noauth = <%= conf['noauth'] %>
+
 <% end %>
 <% if has_variable?(conf['auth']) %>
+# Turn on/off security.  Off is currently the default
 auth = <%= conf['auth'] %>
+
 <% end %>
 <% if has_variable?(conf['verbose']) %>
 # Verbose logging output.
 verbose = <%= conf['verbose'] %>
+
 <% end %>
 <% if has_variable?(conf['objcheck']) %>
 # Inspect all client data for validity on receipt (useful for
 # developing drivers)
 objcheck = <%= conf['objcheck'] %>
+
 <% end %>
 <% if has_variable?(conf['quota']) %>
 # Enable db quota management
 quota = <%= conf['quota'] %>
+
 <% end %>
 <% if has_variable?(conf['oplog']) %>
 # Set oplogging level where n is
@@ -51,68 +54,109 @@ quota = <%= conf['quota'] %>
 #   3=both
 #   7=W+some reads
 oplog = <%= conf['oplog'] %>
+
 <% end %>
+# Diagnostic/debugging option
+#nocursors = true
+
 <% if has_variable?(conf['nohints']) %>
 # Ignore query hints
 nohints = <%= conf['nohints'] %>
+
 <% end %>
 <% if has_variable?(conf['nohttpinterface']) %>
 # Disable the HTTP interface (Defaults to localhost:27018).
 nohttpinterface = <%= conf['nohttpinterface'] %>
+
 <% end %>
 <% if has_variable?(conf['noscripting']) %>
 # Turns off server-side scripting.  This will result in greatly limited
 # functionality
 noscripting = <%= conf['noscripting'] %>
+
 <% end %>
 <% if has_variable?(conf['notablescan']) %>
 # Turns off table scans.  Any query that would do a table scan fails.
 notablescan = <%= conf['notablescan'] %>
+
 <% end %>
 <% if has_variable?(conf['noprealloc']) %>
 # Disable data file preallocation.
 noprealloc = <%= conf['noprealloc'] %>
+
 <% end %>
 <% if has_variable?(conf['nssize']) %>
 # Specify .ns file size for new databases.
- nssize = <%= conf['nssize'] %>
+nssize = <%= conf['nssize'] %>
+
 <% end %>
 <% if has_variable?(conf['mms_token']) %>
 # Accout token for Mongo monitoring server.
 mms-token = <%= conf['mms_token'] %>
+
 <% end %>
 <% if has_variable?(conf['mms_name']) %>
 # Server name for Mongo monitoring server.
 mms-name = <%= conf['mms_name'] %>
+
 <% end %>
 <% if has_variable?(conf['mms_interval']) %>
 # Ping interval for Mongo monitoring server.
 mms-interval = <%= conf['mms_interval'] %>
+
 <% end %>
+# Replication Options
+
+# in replicated mongo databases, specify here whether this is a slave or master
 <% if has_variable?(conf['slave']) %>
 slave = <%= conf['slave'] %>
-<% end %>
-<% if has_variable?(conf['mongosource']) %>
-source = <%= conf['mongosource'] %>
-<% end %>
 <% if has_variable?(conf['only']) %>
 # Slave only: specify a single database to replicate
 only = <%= conf['only'] %>
 <% end %>
+<% end %>
 <% if has_variable?(conf['master']) %>
 master = <%= conf['master'] %>
+<% end %>
+<% if has_variable?(conf['mongosource']) %>
+source = <%= conf['mongosource'] %>
+
+<% end %>
+# Address of a server to pair with.
+#pairwith = <server:port>
+# Address of arbiter server.
+#arbiter = <server:port>
+# Automatically resync if slave data is stale
+#autoresync
+# Custom size for replication operation log.
+#oplogSize = <MB>
+# Size limit for in-memory storage of op ids.
+#opIdMem = <bytes>
+
+<% if has_variable?(conf['replSet']) %>
+# Use this setting to configure replication with replica sets. Specify a replica
+# set name as an argument to this set. All hosts must have the same set name.
+replSet = <%= conf['replSet'] %>
+
 <% end %>
 <% if has_variable?(conf['directoryperdb']) %>
 # Alters the storage pattern of the data directory to store each database's
 # files in a distinct folder.
 directoryperdb = <%= conf['directoryperdb'] %>
-<% end %>
-<% if has_variable?(conf['replSet']) %>
-# Use this setting to configure replication with replica sets. Specify a replica
-# set name as an argument to this set. All hosts must have the same set name.
-replSet = <%= conf['replSet'] %>
+
 <% end %>
 <% if has_variable?(conf['rest']) %>
 # Enable rest API (disabled by default)
 rest = <%= conf['rest'] %>
+
+<% end %>
+<% if has_variable?(conf['fork']) %>
+# fork and run in background
+fork = <%= conf['fork'] %>
+
+<% end %>
+<% if has_variable?(conf['smallfiles']) %>
+# Use a smaller default data file size.
+smallfiles = <%= conf['smallfiles'] %>
+
 <% end %>

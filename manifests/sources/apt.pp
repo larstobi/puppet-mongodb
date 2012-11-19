@@ -1,17 +1,21 @@
 # == Class: mongodb::sources::apt
 #
 # Configure apt location configuration and PGP keys for Debian derivatives.
-class mongodb::sources::apt inherits mongodb::params {
+class mongodb::sources::apt(
+  $location        = hiera('mongodb_location', undef),
+  ) {
   include apt
+  $mongodb_locations = hiera('mongodb_locations', undef)
+  $mongodb_init      = hiera('mongodb_init',      undef)
 
-  if $mongodb::location {
-    $location = $mongodb::location
+  if $mongodb_location {
+    $apt_location = $location
   } else {
-    $location = $mongodb::params::locations[$mongodb::init]
+    $apt_location = $mongodb_locations[$mongodb_init]
   }
 
   apt::source { '10gen':
-    location    => $location,
+    location    => $apt_location,
     release     => 'dist',
     repos       => '10gen',
     key         => '7F0CEB10',

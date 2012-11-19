@@ -4,9 +4,9 @@
 #
 # === Parameters
 #
-# servicename     - The service name, if other than $mongodb::params::service.
+# service_name   (default: mongodb) - The service name.
 # service_ensure (default: running) - Ensure service is running or stopped.
-# service_enable (default: true) - Enable service at boot or not.
+# service_enable (default: true)    - Enable service at boot or not.
 #
 # === Authors
 #
@@ -19,14 +19,13 @@
 # Copyright 2012 Lars Tobias Skjong-Borsting <larstobi@conduct.no>
 #
 class mongodb::service (
-  $servicename     = $mongodb::params::service,
-  $service_ensure  = 'running',
-  $service_enable  = true,
-  ) inherits mongodb::params {
-  service { 'mongodb':
+  $service_name   = hiera('mongodb_service_name',   'mongodb'),
+  $service_ensure = hiera('mongodb_service_ensure', 'running'),
+  $service_enable = hiera('mongodb_service_enable', true),
+  ) {
+  service { $service_name:
     ensure    => $service_ensure,
-    name      => $servicename,
     enable    => $service_enable,
-    subscribe => File[$mongodb::params::config],
+    subscribe => Class['mongodb::config'],
   }
 }
