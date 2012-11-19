@@ -34,7 +34,7 @@ class mongodb (
   $enable_10gen    = hiera('mongodb_enable_10gen',     false),
   $init            = hiera('mongodb_init',             undef),
   $location        = hiera('mongodb_location',         undef),
-  $package         = hiera('mongodb_package',          undef),
+  $package         = hiera('mongodb_package'),
   $service_name    = hiera('mongodb_service_name',     'mongodb'),
   $service_ensure  = hiera('mongodb_service_ensure',   'running'),
   $service_enable  = hiera('mongodb_service_enable',   true),

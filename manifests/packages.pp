@@ -26,14 +26,10 @@ class mongodb::packages(
   ) {
   if $enable_10gen {
     $mongodb_source = hiera('mongodb_source')
+    $pkg_10gen      = hiera('mongodb_pkg_10gen')
+    $package_name   = $pkg_10gen
     class { $mongodb_source: location => $location; }
     Class[$mongodb_source] -> Package[$mongodb_pkg_10gen]
-  }
-
-  if $package {
-    $package_name = $package
-  } elsif $enable_10gen {
-    $package_name = $pkg_10gen
   } else {
     $package_name = $package
   }
