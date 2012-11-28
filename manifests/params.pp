@@ -23,9 +23,9 @@ class mongodb::params{
       $package = 'mongodb'
       $service = 'mongodb'
       $pkg_10gen = 'mongodb-10gen'
-      $dbpath = '/var/lib/mongo'
-      $logpath = '/var/log/mongo/mongod.log'
-      $config = '/etc/mongod.conf'
+      $dbpath = '/var/lib/mongodb'
+      $logpath = '/var/log/mongo/mongodb.log'
+      $config = '/etc/mongodb.conf'
     }
     default: {
       fail ("mongodb: ${::operatingsystem} is not supported.")
