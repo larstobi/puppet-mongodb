@@ -4,8 +4,10 @@
 logpath=<%= logpath %>
 logappend=<%= logappend %>
 
+<% if @mongofork == 'true' %>
 # fork and run in background
 fork = <%= mongofork %>
+<% end -%>
 <% if @bind_ip -%>
 bind_ip = <%= bind_ip %>
 <% end -%>
