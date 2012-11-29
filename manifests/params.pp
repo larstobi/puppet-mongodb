@@ -24,7 +24,7 @@ class mongodb::params{
       $service = 'mongodb'
       $pkg_10gen = 'mongodb-10gen'
       $dbpath = '/var/lib/mongodb'
-      $logpath = '/var/log/mongo/mongodb.log'
+      $logpath = '/var/log/mongodb/mongodb.log'
       $config = '/etc/mongodb.conf'
     }
     default: {
